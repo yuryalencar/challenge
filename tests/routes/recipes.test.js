@@ -58,9 +58,25 @@ describe.only('Test Suite of the Recipes API', function () {
         assert.deepEqual(statusCode, 400);
     });
 
+    it('Check List Recipes Status Code is 404 (/recipe/)', async () => {
+        const result = await app.inject({
+            method: 'GET',
+            url: '/recipe/',
+        });
+
+        const statusCode = result.statusCode;
+        assert.deepEqual(statusCode, 404);
+    });
+
+    it('Check List Recipes Status Code is 404 (/recipes)', async () => {
+        const result = await app.inject({
+            method: 'GET',
+            url: '/recipes',
+        });
+
+        const statusCode = result.statusCode;
+        assert.deepEqual(statusCode, 404);
+    });
+
     // test return is a array of recipes
-    // test with route not found
-    // test without query params
-    // test with query params ok
-    // test with 4+ query params
 });
