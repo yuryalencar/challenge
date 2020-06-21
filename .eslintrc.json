@@ -5,11 +5,18 @@
         "node": true
     },
     "extends": [
-        "airbnb-base"
+        "airbnb-base",
+        "plugin:@javascript-eslint/recommended",
+        "prettier/@javascript-eslint",
+        "plugin:prettier/recommended"
     ],
     "parserOptions": {
         "ecmaVersion": 11
     },
+    "plugins": [
+        "prettier"
+    ],
     "rules": {
+        "prettier/prettier"
     }
 }
