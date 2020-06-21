@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/yuryalencar/challenge/issues"
   },
-  "homepage": "https://github.com/yuryalencar/challenge#readme"
+  "homepage": "https://github.com/yuryalencar/challenge#readme",
+  "devDependencies": {
+    "eslint": "^7.3.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.21.2"
+  }
 }
