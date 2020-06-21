@@ -2,7 +2,6 @@ const BaseService = require('./base/baseService');
 const Recipe = require('../models/Recipe');
 
 class RecipePuppyService extends BaseService {
-    URL_BASE = 'http://www.recipepuppy.com/api/';
     MAX_INGREDIENTS = 3;
     MIN_INGREDIENTS = 1;
     AMOUNT_ERROR_MESSAGE =
@@ -36,7 +35,7 @@ class RecipePuppyService extends BaseService {
 
     async searchRecipes() {
         const query = this._mountNormalSearchQuery();
-        const recipes = await this.makeGetRequest(`${this.URL_BASE}${query}`);
+        const recipes = await this.makeGetRequest(`${process.env.RECIPE_PUPPY_URL_BASE}${query}`);
         return recipes.results.map(this.mapRecipe);
     }
 

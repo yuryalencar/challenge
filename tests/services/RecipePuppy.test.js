@@ -1,5 +1,6 @@
 const assert = require('assert');
 const nock = require('nock');
+require('dotenv').config();
 const RecipePuppyService = require('../../src/services/RecipePuppyService');
 
 describe.only('Test Suite of the RecipePuppy Integration', function () {
@@ -132,7 +133,6 @@ describe.only('Test Suite of the RecipePuppy Integration', function () {
     it('Check RecipePuppy Integration with 1 ingredients', async () => {
         let ingredients = ['ingredient 1'];
         let expectedResult = {
-            URL_BASE: 'http://www.recipepuppy.com/api/',
             AMOUNT_ERROR_MESSAGE:
                 'Amount of invalid ingredients, try to send 1 to 3 ingredients',
             MAX_INGREDIENTS: 3,
