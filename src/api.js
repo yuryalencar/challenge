@@ -1,5 +1,6 @@
 const Hapi = require('@hapi/hapi');
 const RecipeRoutes = require('./routes/recipeRoutes');
+require('dotenv').config({ path: '../.env' });
 
 function mapRoutes(instance, methods) {
     return methods.map(method => instance[method]());
@@ -7,8 +8,8 @@ function mapRoutes(instance, methods) {
 
 const init = async () => {
     const server = Hapi.server({
-        port: 3000,
-        host: 'localhost',
+        port: process.env.PORT,
+        host: process.env.HOST,
     });
 
     server.route([...mapRoutes(new RecipeRoutes(), RecipeRoutes.methods())]);
