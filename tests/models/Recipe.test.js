@@ -18,6 +18,4 @@ describe.only('Test Suite of the Recipe Model Creation', function () {
         let result = new Recipe(title, ingredients, link, gif);
         assert.deepEqual(result, expectedResult);
     });
-
-    // verificar os tipos?
 });
