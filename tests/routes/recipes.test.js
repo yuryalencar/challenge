@@ -1,5 +1,5 @@
 const assert = require('assert');
-const api = require('../src/api');
+const api = require('../../src/api');
 
 let app = {};
 
