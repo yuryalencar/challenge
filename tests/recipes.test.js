@@ -17,4 +17,10 @@ describe.only('Test Suite of the Recipes API', function () {
         const statusCode = result.statusCode;
         assert.deepEqual(statusCode, 200);
     });
+
+    // test return is a array of recipes
+    // test with route not found
+    // test without query params
+    // test with query params ok
+    // test with 4+ query params
 });
