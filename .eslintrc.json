@@ -17,6 +17,6 @@
         "prettier"
     ],
     "rules": {
-        "prettier/prettier"
+        "prettier/prettier": "error"
     }
 }
