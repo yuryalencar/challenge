@@ -1,4 +1,5 @@
 const BaseService = require('./base/baseService');
+const Recipe = require('../models/Recipe');
 
 class RecipePuppyService extends BaseService {
     URL_BASE = 'http://www.recipepuppy.com/api/';
@@ -33,10 +34,19 @@ class RecipePuppyService extends BaseService {
         return query;
     }
 
-    async searchRecipes(){
+    async searchRecipes() {
         const query = this._mountNormalSearchQuery();
         const recipes = await this.makeGetRequest(`${this.URL_BASE}${query}`);
-        return recipes;
+        return recipes.results.map(this.mapRecipe);
+    }
+
+    mapRecipe(recipe) {
+        let ingredients = recipe.ingredients
+            .split(',')
+            .map(ingredient => ingredient.trim());
+
+        ingredients.sort();
+        return new Recipe(recipe.title, ingredients, recipe.href, null);
     }
 }
 
