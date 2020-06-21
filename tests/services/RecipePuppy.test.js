@@ -28,6 +28,7 @@ describe.only('Test Suite of the RecipePuppy Integration', function () {
 
         try {
             new RecipePuppyService(amountIngredientsInvalid);
+            assert.ok(false);
         } catch (error) {
             assert.deepEqual(error, expectedResult);
         }
