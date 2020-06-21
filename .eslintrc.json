@@ -6,8 +6,7 @@
     },
     "extends": [
         "airbnb-base",
-        "plugin:@javascript-eslint/recommended",
-        "prettier/@javascript-eslint",
+        "eslint:recommended",
         "plugin:prettier/recommended"
     ],
     "parserOptions": {
@@ -17,6 +16,5 @@
         "prettier"
     ],
     "rules": {
-        "prettier/prettier": "error"
     }
 }
