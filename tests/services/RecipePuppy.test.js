@@ -6,7 +6,7 @@ describe.only('Test Suite of the RecipePuppy Integration', function () {
         let expectedResult =
             'Amount of invalid ingredients, try to send 1 to 3 ingredients';
 
-        let amountIngredientsInvalid = [
+        let ingredients = [
             'ingredient 1',
             'ingredient 2',
             'ingredient 3',
@@ -14,7 +14,7 @@ describe.only('Test Suite of the RecipePuppy Integration', function () {
         ];
 
         try {
-            new RecipePuppyService(amountIngredientsInvalid);
+            new RecipePuppyService(ingredients);
         } catch (error) {
             assert.deepEqual(error, expectedResult);
         }
@@ -24,10 +24,10 @@ describe.only('Test Suite of the RecipePuppy Integration', function () {
         let expectedResult =
             'Amount of invalid ingredients, try to send 1 to 3 ingredients';
 
-        let amountIngredientsInvalid = [];
+        let ingredients = [];
 
         try {
-            new RecipePuppyService(amountIngredientsInvalid);
+            new RecipePuppyService(ingredients);
             assert.ok(false);
         } catch (error) {
             assert.deepEqual(error, expectedResult);
@@ -35,16 +35,121 @@ describe.only('Test Suite of the RecipePuppy Integration', function () {
     });
 
     it('Check RecipePuppy Integration with 1 ingredients', async () => {
-        let amountIngredients = ['ingredient 1'];
+        let ingredients = ['ingredient 1'];
         let expectedResult = {
+            URL_BASE: 'http://www.recipepuppy.com/api/',
             AMOUNT_ERROR_MESSAGE:
                 'Amount of invalid ingredients, try to send 1 to 3 ingredients',
             MAX_INGREDIENTS: 3,
             MIN_INGREDIENTS: 1,
-            ingredients: amountIngredients,
+            ingredients: ingredients,
         };
 
-        let result = new RecipePuppyService(amountIngredients);
+        let result = new RecipePuppyService(ingredients);
+        assert.deepEqual(result, expectedResult);
+    });
+
+    it('Check RecipePuppy Integration mount normal query search (3 ingredients)', async () => {
+        let ingredients = ['onion', 'tomato', 'lemon'];
+        let expectedResult = '?q=onion tomato lemon';
+
+        let result = new RecipePuppyService(
+            ingredients,
+        )._mountNormalSearchQuery();
+        assert.deepEqual(result, expectedResult);
+    });
+
+    it('Check RecipePuppy Integration searching by 2 ingredients', async () => {
+        let ingredients = ['onion', 'tomato'];
+        let expectedResult = {
+            title: 'Recipe Puppy',
+            version: 0.1,
+            href: 'http://www.recipepuppy.com/',
+            results: [
+                {
+                    title: 'French Onion Tomato Soup',
+                    href:
+                        'http://allrecipes.com/Recipe/French-Onion-Tomato-Soup/Detail.aspx',
+                    ingredients:
+                        'beef bouillon granules, brown sugar, butter, parsley, french bread, garlic, lemon juice, mozzarella cheese, onions',
+                    thumbnail: '',
+                },
+                {
+                    title: 'Vidalia Onion Tomato Pizza',
+                    href:
+                        'http://allrecipes.com/Recipe/Vidalia-Onion-Tomato-Pizza/Detail.aspx',
+                    ingredients:
+                        'cheddar cheese, flour, mozzarella cheese, olive oil, salt, sugar, tomato, onions, water',
+                    thumbnail: 'http://img.recipepuppy.com/10970.jpg',
+                },
+                {
+                    title: 'Potato, Onion & Tomato Bake',
+                    href:
+                        'http://www.recipezaar.com/Potato-Onion-Tomato-Bake-71338',
+                    ingredients:
+                        'butter, cheddar cheese, chicken broth, cream, milk, onions, potato, salt, tomato',
+                    thumbnail: 'http://img.recipepuppy.com/37149.jpg',
+                },
+                {
+                    title: 'Potato Onion Tomato Curry Recipe',
+                    href:
+                        'http://www.cdkitchen.com/recipes/recs/64/Potato_Onion_Tomato_Curry47342.shtml',
+                    ingredients:
+                        'bay leaf, cilantro, green chilies, ginger, onions, potato, chili, chili powder, sugar, tomato, turmeric, water',
+                    thumbnail: '',
+                },
+                {
+                    title: 'Bulgur with Onion, Tomato, and Feta',
+                    href:
+                        'http://www.epicurious.com/recipes/food/views/Bulgur-with-Onion-Tomato-and-Feta-103322',
+                    ingredients:
+                        'bulgur, chilies, olive oil, feta cheese, red onions, sugar, tomato, vegetable broth',
+                    thumbnail: '',
+                },
+                {
+                    title: 'Vidalia Onion, Tomato and Basil Salad',
+                    href:
+                        'http://www.recipezaar.com/Vidalia-Onion-Tomato-and-Basil-Salad-431',
+                    ingredients:
+                        'basil, garlic, mozzarella cheese, olive oil, black pepper, tomato, vidalia onions, white wine vinegar',
+                    thumbnail: '',
+                },
+                {
+                    title: 'Onion, Tomato, and Olive Pizzas',
+                    href:
+                        'http://www.epicurious.com/recipes/food/views/Onion-Tomato-and-Olive-Pizzas-108869',
+                    ingredients:
+                        'anchovy paste, black pepper, olive oil, garlic, grape tomatoes, kalamata olive, onions, pizza dough, salt, sea salt, sugar, thyme',
+                    thumbnail: '',
+                },
+                {
+                    title: 'Onion, Tomato, and Bell Pepper Citrus Salsa',
+                    href:
+                        'http://www.epicurious.com/recipes/food/views/Onion-Tomato-and-Bell-Pepper-Citrus-Salsa-107882',
+                    ingredients:
+                        'olive oil, garlic, green pepper, lemon juice, lime juice, onions, orange juice, red pepper, jalapeno, onions, tomato',
+                    thumbnail: '',
+                },
+                {
+                    title: 'Broiled Salmon with Onion, Tomato and Lemon',
+                    href:
+                        'http://www.epicurious.com/recipes/food/views/Broiled-Salmon-with-Onion-Tomato-and-Lemon-2642',
+                    ingredients:
+                        'garlic, lemon juice, salmon, lemon, onions, tomato',
+                    thumbnail: '',
+                },
+                {
+                    title: 'Garlic And Onion Tomato Sauce Recipe',
+                    href:
+                        'http://www.cdkitchen.com/recipes/recs/332/Garlic_And_Onion_Tomato_Sauce56258.shtml',
+                    ingredients:
+                        'basil, black pepper, garlic, olive oil, onions, tomato, thyme',
+                    thumbnail: '',
+                },
+            ],
+        };
+
+        let result = await new RecipePuppyService(ingredients).searchRecipes();
         assert.deepEqual(result, expectedResult);
     });
 });
