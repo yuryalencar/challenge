@@ -61,6 +61,9 @@ Stop container
 make down
 ```
 
+#### Observation (Only Windows)
+To run on Windows some makefile commands may need to be updated.
+
 ### Language used
 
 - NodeJS
