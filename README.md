@@ -75,7 +75,7 @@ Below is a list of requests and your respective result. If service not is availa
 |         Request Example | Result                                                                        |
 | ----------------------: | ----------------------------------------------------------------------------- |
 | `PATH/recipes/?i=onion` | Status Code: 200 OK and receive an [correct response](#correct-response).      |
-| `PATH/recipes/?i=` | Status Code: 400 Bad Request and receive an [bad request response](bad-request-response)                   |
+| `PATH/recipes/?i=` | Status Code: 400 Bad Request and receive an [bad request response](#bad-request-response)                   |
 | `PATH/recipes/?i=i1,i2` | Status Code: 200 OK and receive an [correct response](#correct-response). |
 | `PATH/recipes/?i=i1,i2,i3` | Status Code: 200 OK and receive an [correct response](#correct-response).           |
 | `PATH/recipes/?i=i1,i2,i3,i4` | Status Code: 400 Bad Request and receive an [bad request response](#bad-request-response) |
