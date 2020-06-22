@@ -67,7 +67,7 @@ make down
 
 ### How To Use
 
-Below is a list of requests and your respective result. If service not is available  you receive a [Request Timeout Response](#request-timeout-response)
+Below is a list of requests and your respective result. If service not is available  you receive a [Request Timeout Response](#request-timeout-response). (Ps.: All examples use GET method).
 
 |         Request Example | Result                                                                        |
 | ----------------------: | ----------------------------------------------------------------------------- |
