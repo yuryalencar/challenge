@@ -66,7 +66,7 @@ To run on Windows some makefile commands may need to be updated.
 
 ### Language used
 
-- NodeJS
+- Javascript
 
 ### How To Use
 
