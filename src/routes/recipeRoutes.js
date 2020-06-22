@@ -1,5 +1,7 @@
 const BaseRoute = require('./base/baseRoute');
 const Joi = require('@hapi/joi');
+const RecipesController = require('../controllers/recipesController');
+const RecipeController = require('../controllers/recipesController');
 
 class RecipeRoutes extends BaseRoute {
     CHECK_AMOUNT_INGREDIENTS_REGEX = /^[^,]+(,[^,]+)?(,[^,]+)?$/;
@@ -13,7 +15,8 @@ class RecipeRoutes extends BaseRoute {
             path: '/recipes/',
             method: 'GET',
             handler: (request, headers) => {
-                return `Hello ${request.query.i}!`;
+                let controller = new RecipeController();
+                return controller.getRecipes(request, headers);
             },
             options: {
                 validate: {

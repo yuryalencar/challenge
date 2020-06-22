@@ -265,7 +265,7 @@ describe.only('Test Suite of the GiphyService', function () {
 
     it('Check GiphyService mount query search', async () => {
         const searchTerm = 'French Onion Tomato Soup';
-        const expectedResult = `${process.env.GIPHY_URL_BASE}/search?q=${searchTerm}`;
+        const expectedResult = `${process.env.GIPHY_URL_BASE}/search?q=French%20Onion%20Tomato%20Soup`;
         const result = new GiphyService(searchTerm)._mountQuerySearch();
         assert.deepEqual(result, expectedResult);
     });

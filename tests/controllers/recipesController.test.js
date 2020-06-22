@@ -1,13 +1,12 @@
 const assert = require('assert');
 const nock = require('nock');
-const api = require('../../src/api');
+const RecipeController = require('../../src/controllers/recipesController');
+const Recipe = require('../../src/models/Recipe');
+const RecipeListResponse = require('../../src/models/responses/recipes/RecipeListResponse');
+require('dotenv').config();
 
-let app = {};
-
-describe.only('Test Suite of the Recipes API', function () {
-    this.beforeEach(async () => {
-        app = await api;
-
+describe.only('Test Suite of the RecipeController', function () {
+    this.beforeEach(() => {
         const giphyResponse = {
             data: [
                 {
@@ -280,83 +279,155 @@ describe.only('Test Suite of the Recipes API', function () {
             .reply(200, giphyResponse);
 
         nock(process.env.RECIPE_PUPPY_URL_BASE)
-            .get(`/?q=ingredient`)
+            .get(`/?q=tomato`)
             .reply(200, recipePuppyResponse);
 
-        nock(process.env.RECIPE_PUPPY_URL_BASE)
-            .get(`/?q=ingredient,ingredient,ingredient`)
-            .reply(200, recipePuppyResponse);
+        const giphyResponseWithError = {};
+        const recipePuppyResponseWithError = {};
     });
 
-    it('Check List Recipes Status Code is 200 OK (1 ingredient)', async () => {
-        const result = await app.inject({
-            method: 'GET',
-            url: '/recipes/?i=ingredient',
-        });
-
-        const statusCode = result.statusCode;
-        assert.deepEqual(statusCode, 200);
+    it('Check Split Ingredients method (3 ingredients)', async () => {
+        const ingredients = 'ingredient_1, ingredient_2, ingredient_3';
+        const expectedResult = ['ingredient_1', 'ingredient_2', 'ingredient_3'];
+        const result = new RecipeController()._splitIngredients(ingredients);
+        assert.deepEqual(result, expectedResult);
     });
 
-    it('Check List Recipes Status Code is 200 OK (3 ingredients)', async () => {
-        const result = await app.inject({
-            method: 'GET',
-            url: '/recipes/?i=ingredient,ingredient,ingredient',
-        });
-
-        const statusCode = result.statusCode;
-        assert.deepEqual(statusCode, 200);
+    it('Check Split Ingredients method (1 ingredients)', async () => {
+        const ingredients = 'ingredient_1';
+        const expectedResult = ['ingredient_1'];
+        const result = new RecipeController()._splitIngredients(ingredients);
+        assert.deepEqual(result, expectedResult);
     });
 
-    it('Check List Recipes Status Code is 400 (0 ingredients)', async () => {
-        const result = await app.inject({
-            method: 'GET',
-            url: '/recipes/?i=',
-        });
+    it('Check Insert Gifs in Recipe', async () => {
+        const title = 'French Onion Tomato Soup';
+        const ingredients = ['backend', 'nodejs'];
+        const link = 'https://github.com/yuryalencar/challenge';
+        const gif =
+            'https://media3.giphy.com/media/6Bdx9wl8sIh4A/giphy.gif?cid=522730231aadc596628a76583f18bbd4997288dd0a2d6232&rid=giphy.gif';
 
-        const statusCode = result.statusCode;
-        assert.deepEqual(statusCode, 400);
+        let recipe = new Recipe(title, ingredients, link, null);
+
+        const expectedResult = new Recipe(title, ingredients, link, gif);
+        const result = await new RecipeController()._insertGifsInRecipes(
+            recipe,
+        );
+        assert.deepEqual(result, expectedResult);
     });
 
-    it('Check List Recipes Status Code is 400 (4 ingredients)', async () => {
-        const result = await app.inject({
-            method: 'GET',
-            url: '/recipes/?i=ingredient,ingredient,ingredient,ingredient',
-        });
+    it('Check Get Recipes (1 recipe)', async () => {
+        const ingredient = 'tomato';
+        const requests = {
+            query: {
+                i: ingredient,
+            },
+        };
 
-        const statusCode = result.statusCode;
-        assert.deepEqual(statusCode, 400);
+        const recipes = [
+            {
+                title: 'French Onion Tomato Soup',
+                ingredients: [
+                    'beef bouillon granules',
+                    'brown sugar',
+                    'butter',
+                    'french bread',
+                    'garlic',
+                    'lemon juice',
+                    'mozzarella cheese',
+                    'onions',
+                    'parsley',
+                ],
+                link:
+                    'http://allrecipes.com/Recipe/French-Onion-Tomato-Soup/Detail.aspx',
+                gif:
+                    'https://media3.giphy.com/media/6Bdx9wl8sIh4A/giphy.gif?cid=522730231aadc596628a76583f18bbd4997288dd0a2d6232&rid=giphy.gif',
+            },
+        ];
+
+        const expectedResult = new RecipeListResponse([ingredient], recipes);
+        const result = await new RecipeController().getRecipes(requests, null);
+        assert.deepEqual(result, expectedResult);
     });
 
-    it('Check List Recipes Status Code is 400 without query param', async () => {
-        const result = await app.inject({
-            method: 'GET',
-            url: '/recipes/',
-        });
+    it('Check Get Recipes With Recipe Puppy Error', async () => {
+        const ingredient = 'name';
+        const requests = {
+            query: {
+                i: ingredient,
+            },
+        };
 
-        const statusCode = result.statusCode;
-        assert.deepEqual(statusCode, 400);
+        const recipes = [
+            {
+                title: 'French Onion Tomato Soup',
+                ingredients: [
+                    'beef bouillon granules',
+                    'brown sugar',
+                    'butter',
+                    'french bread',
+                    'garlic',
+                    'lemon juice',
+                    'mozzarella cheese',
+                    'onions',
+                    'parsley',
+                ],
+                link:
+                    'http://allrecipes.com/Recipe/French-Onion-Tomato-Soup/Detail.aspx',
+                gif:
+                    'https://media3.giphy.com/media/6Bdx9wl8sIh4A/giphy.gif?cid=522730231aadc596628a76583f18bbd4997288dd0a2d6232&rid=giphy.gif',
+            },
+        ];
+
+        const expectedResult = 'RecipePuppy Service is not available';
+        try {
+            const result = await new RecipeController().getRecipes(
+                requests,
+                null,
+            );
+        } catch (error) {
+            assert.deepEqual(error, expectedResult);
+        }
     });
 
-    it('Check List Recipes Status Code is 404 (/recipe/)', async () => {
-        const result = await app.inject({
-            method: 'GET',
-            url: '/recipe/',
-        });
+    it('Check Get Recipes with Giphy Error', async () => {
+        const ingredient = 'tomato';
+        const requests = {
+            query: {
+                i: ingredient,
+            },
+        };
 
-        const statusCode = result.statusCode;
-        assert.deepEqual(statusCode, 404);
+        const recipes = [
+            {
+                title: 'Not Exists',
+                ingredients: [
+                    'beef bouillon granules',
+                    'brown sugar',
+                    'butter',
+                    'french bread',
+                    'garlic',
+                    'lemon juice',
+                    'mozzarella cheese',
+                    'onions',
+                    'parsley',
+                ],
+                link:
+                    'http://allrecipes.com/Recipe/French-Onion-Tomato-Soup/Detail.aspx',
+                gif:
+                    'https://media3.giphy.com/media/6Bdx9wl8sIh4A/giphy.gif?cid=522730231aadc596628a76583f18bbd4997288dd0a2d6232&rid=giphy.gif',
+            },
+        ];
+
+        const expectedResult = 'Giphy Service is not available';
+        try {
+
+            const result = await new RecipeController().getRecipes(
+                requests,
+                null,
+            );
+        } catch (error) {
+            assert.deepEqual(error, expectedResult);
+        }
     });
-
-    it('Check List Recipes Status Code is 404 (/recipes)', async () => {
-        const result = await app.inject({
-            method: 'GET',
-            url: '/recipes',
-        });
-
-        const statusCode = result.statusCode;
-        assert.deepEqual(statusCode, 404);
-    });
-
-    // test return is a array of recipes
 });

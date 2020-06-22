@@ -8,16 +8,20 @@ class GiphyService extends BaseService {
     }
 
     async getGifs() {
-        let url = this._mountQuerySearch();
-        url = this._insertApiKey(url);
-        url = this._insertResultLimit(url);
+        try {
+            let url = this._mountQuerySearch();
+            url = this._insertApiKey(url);
+            url = this._insertResultLimit(url);
 
-
-        const gifs = await this.makeGetRequest(url);
-        return gifs.data.map(this._mapGif);
+            const gifs = await this.makeGetRequest(url);
+            return gifs.data.map(this._mapGif);
+        } catch (error) {
+            throw 'Giphy Service is not available';
+        }
     }
 
     _mountQuerySearch() {
+        this.searchTerm = this.searchTerm.split(' ').join(this.WHITE_SPACE);
         return `${process.env.GIPHY_URL_BASE}/search?q=${this.searchTerm}`;
     }
 

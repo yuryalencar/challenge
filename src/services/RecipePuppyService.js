@@ -30,13 +30,20 @@ class RecipePuppyService extends BaseService {
         });
 
         query = query.trim();
+        query = query.split(' ').join(this.WHITE_SPACE);
         return query;
     }
 
     async searchRecipes() {
-        const query = this._mountNormalSearchQuery();
-        const recipes = await this.makeGetRequest(`${process.env.RECIPE_PUPPY_URL_BASE}${query}`);
-        return recipes.results.map(this.mapRecipe);
+        try {
+            const query = this._mountNormalSearchQuery();
+            const recipes = await this.makeGetRequest(
+                `${process.env.RECIPE_PUPPY_URL_BASE}${query}`,
+            );
+            return recipes.results.map(this.mapRecipe);
+        } catch (error) {
+            throw 'RecipePuppy Service is not available';
+        }
     }
 
     mapRecipe(recipe) {

@@ -133,6 +133,8 @@ describe.only('Test Suite of the RecipePuppy Integration', function () {
     it('Check RecipePuppy Integration with 1 ingredients', async () => {
         let ingredients = ['ingredient 1'];
         let expectedResult = {
+            WHITE_SPACE: '%20',
+            STATUS_OK: 200,
             AMOUNT_ERROR_MESSAGE:
                 'Amount of invalid ingredients, try to send 1 to 3 ingredients',
             MAX_INGREDIENTS: 3,
@@ -146,7 +148,7 @@ describe.only('Test Suite of the RecipePuppy Integration', function () {
 
     it('Check RecipePuppy Integration mount normal query search (3 ingredients)', async () => {
         let ingredients = ['onion', 'tomato', 'lemon'];
-        let expectedResult = '?q=onion tomato lemon';
+        let expectedResult = '?q=onion%20tomato%20lemon';
 
         let result = new RecipePuppyService(
             ingredients,
