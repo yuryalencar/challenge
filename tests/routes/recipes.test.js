@@ -280,7 +280,7 @@ describe.only('Test Suite of the Recipes API', function () {
             .reply(200, giphyResponse);
 
         nock(process.env.RECIPE_PUPPY_URL_BASE)
-            .get(`/?q=ingredient`)
+            .get(`/?q=tomato`)
             .reply(200, recipePuppyResponse);
 
         nock(process.env.RECIPE_PUPPY_URL_BASE)
@@ -288,24 +288,29 @@ describe.only('Test Suite of the Recipes API', function () {
             .reply(200, recipePuppyResponse);
     });
 
-    it('Check List Recipes Status Code is 200 OK (1 ingredient)', async () => {
-        const result = await app.inject({
+    it('Check List Recipes Status Code is 200 OK (1 and 3 ingredients)', async () => {
+        let result = await app.inject({
             method: 'GET',
-            url: '/recipes/?i=ingredient',
+            url: '/recipes/?i=tomato',
         });
 
+        response = JSON.parse(result.payload);
         const statusCode = result.statusCode;
         assert.deepEqual(statusCode, 200);
-    });
+        assert.ok(Array.isArray(response.keywords));
+        assert.ok(Array.isArray(response.recipes));
+        assert.ok(Array.isArray(response.recipes[0].ingredients));
 
-    it('Check List Recipes Status Code is 200 OK (3 ingredients)', async () => {
-        const result = await app.inject({
+        result = await app.inject({
             method: 'GET',
             url: '/recipes/?i=ingredient,ingredient,ingredient',
         });
 
-        const statusCode = result.statusCode;
         assert.deepEqual(statusCode, 200);
+        assert.ok(Array.isArray(response.keywords));
+        assert.ok(Array.isArray(response.recipes));
+        assert.ok(Array.isArray(response.recipes[0].ingredients));
+
     });
 
     it('Check List Recipes Status Code is 400 (0 ingredients)', async () => {
@@ -357,6 +362,4 @@ describe.only('Test Suite of the Recipes API', function () {
         const statusCode = result.statusCode;
         assert.deepEqual(statusCode, 404);
     });
-
-    // test return is a array of recipes
 });

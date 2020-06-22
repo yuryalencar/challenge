@@ -355,33 +355,9 @@ describe.only('Test Suite of the RecipeController', function () {
             },
         };
 
-        const recipes = [
-            {
-                title: 'French Onion Tomato Soup',
-                ingredients: [
-                    'beef bouillon granules',
-                    'brown sugar',
-                    'butter',
-                    'french bread',
-                    'garlic',
-                    'lemon juice',
-                    'mozzarella cheese',
-                    'onions',
-                    'parsley',
-                ],
-                link:
-                    'http://allrecipes.com/Recipe/French-Onion-Tomato-Soup/Detail.aspx',
-                gif:
-                    'https://media3.giphy.com/media/6Bdx9wl8sIh4A/giphy.gif?cid=522730231aadc596628a76583f18bbd4997288dd0a2d6232&rid=giphy.gif',
-            },
-        ];
-
         const expectedResult = 'RecipePuppy Service is not available';
         try {
-            const result = await new RecipeController().getRecipes(
-                requests,
-                null,
-            );
+            await new RecipeController().getRecipes(requests, null);
         } catch (error) {
             assert.deepEqual(error, expectedResult);
         }
@@ -395,34 +371,9 @@ describe.only('Test Suite of the RecipeController', function () {
             },
         };
 
-        const recipes = [
-            {
-                title: 'Not Exists',
-                ingredients: [
-                    'beef bouillon granules',
-                    'brown sugar',
-                    'butter',
-                    'french bread',
-                    'garlic',
-                    'lemon juice',
-                    'mozzarella cheese',
-                    'onions',
-                    'parsley',
-                ],
-                link:
-                    'http://allrecipes.com/Recipe/French-Onion-Tomato-Soup/Detail.aspx',
-                gif:
-                    'https://media3.giphy.com/media/6Bdx9wl8sIh4A/giphy.gif?cid=522730231aadc596628a76583f18bbd4997288dd0a2d6232&rid=giphy.gif',
-            },
-        ];
-
         const expectedResult = 'Giphy Service is not available';
         try {
-
-            const result = await new RecipeController().getRecipes(
-                requests,
-                null,
-            );
+            await new RecipeController().getRecipes(requests, null);
         } catch (error) {
             assert.deepEqual(error, expectedResult);
         }
