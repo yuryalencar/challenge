@@ -281,9 +281,6 @@ describe.only('Test Suite of the RecipeController', function () {
         nock(process.env.RECIPE_PUPPY_URL_BASE)
             .get(`/?q=tomato`)
             .reply(200, recipePuppyResponse);
-
-        const giphyResponseWithError = {};
-        const recipePuppyResponseWithError = {};
     });
 
     it('Check Split Ingredients method (3 ingredients)', async () => {
