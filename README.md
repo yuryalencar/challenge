@@ -26,7 +26,40 @@ This project aims make an integration between [RecipePuppy](http://www.recipepup
 
 ### Installation
 
-For installation this project.....
+#### Requirements for install
+
+- NPM installed
+- Docker installed
+
+#### Commons Steps
+
+Copy .env.example to .env
+```
+cp .env.example .env
+```
+
+Configure .env using PORT, HOST, RECIPE_PUPPY_URL_BASE, GIPHY_URL_BASE and GIPHY_API_KEY.
+
+GIPHY_API_KEY can be created at https://developers.giphy.com/ to obtain an API_KEY that you must:
+- Create an account
+- Create an app and select API solution
+- Copy your API_KEY :)
+
+In project root execute below command and you can make requests in your ${HOST}:${ENV.PORT}. (Ps.: For the run in localhost use 0.0.0.0.0 in HOST)
+```
+make up
+```
+
+#### Others Commands
+Run tests
+```
+make test
+```
+
+Stop container
+```
+make down
+```
 
 ### Language used
 
