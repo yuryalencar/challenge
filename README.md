@@ -140,7 +140,7 @@ Contributions are what make the open source community an incredible place to lea
 1. Make a project Fork
 2. Create a Branch for your feature (`git checkout -b feature/amazing-feature`)
 3. Insert your changes (`git add .`)
-4. Make a commit with your changes (`git commit -m 'feat(<teasy-filename>): Inserting a Amazing Feature !`)
+4. Make a commit with your changes (`git commit -m 'feat(<folder-name>): Inserting a Amazing Feature !`)
 5. Push the branch (`git push origin feature/amazing-feature`)
 6. Open a Pull Request
 
