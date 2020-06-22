@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start" : "node src/api.js",
     "test": "mocha 'tests/**/*.js' --recursive --timeout 60000 --exit"
   },
   "repository": {

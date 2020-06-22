@@ -1,6 +1,6 @@
 const Hapi = require('@hapi/hapi');
 const RecipeRoutes = require('./routes/recipeRoutes');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 
 function mapRoutes(instance, methods) {
     return methods.map(method => instance[method]());
